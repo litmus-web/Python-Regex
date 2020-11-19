@@ -1,9 +1,0 @@
-/home/elgusanito/rust-projs/Python-Regex/target/debug/build/libmimalloc-sys-56d80b4a99a02a7b/out/build/CMakeFiles/install/local.dir
-/home/elgusanito/rust-projs/Python-Regex/target/debug/build/libmimalloc-sys-56d80b4a99a02a7b/out/build/CMakeFiles/install.dir
-/home/elgusanito/rust-projs/Python-Regex/target/debug/build/libmimalloc-sys-56d80b4a99a02a7b/out/build/CMakeFiles/list_install_components.dir
-/home/elgusanito/rust-projs/Python-Regex/target/debug/build/libmimalloc-sys-56d80b4a99a02a7b/out/build/CMakeFiles/rebuild_cache.dir
-/home/elgusanito/rust-projs/Python-Regex/target/debug/build/libmimalloc-sys-56d80b4a99a02a7b/out/build/CMakeFiles/edit_cache.dir
-/home/elgusanito/rust-projs/Python-Regex/target/debug/build/libmimalloc-sys-56d80b4a99a02a7b/out/build/CMakeFiles/install/strip.dir
-/home/elgusanito/rust-projs/Python-Regex/target/debug/build/libmimalloc-sys-56d80b4a99a02a7b/out/build/CMakeFiles/mimalloc-obj.dir
-/home/elgusanito/rust-projs/Python-Regex/target/debug/build/libmimalloc-sys-56d80b4a99a02a7b/out/build/CMakeFiles/mimalloc-static.dir
-/home/elgusanito/rust-projs/Python-Regex/target/debug/build/libmimalloc-sys-56d80b4a99a02a7b/out/build/CMakeFiles/mimalloc.dir
