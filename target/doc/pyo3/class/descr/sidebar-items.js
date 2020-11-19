@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["PyDescrMethods","All FFI functions for description protocols."]],"trait":[["PyDescrDeleteProtocol",""],["PyDescrGetProtocol",""],["PyDescrProtocol","Descriptor interface"],["PyDescrSetNameProtocol",""],["PyDescrSetProtocol",""]]});

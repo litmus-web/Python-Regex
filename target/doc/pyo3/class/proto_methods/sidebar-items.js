@@ -1,1 +1,0 @@
-initSidebarItems({"trait":[["PyProtoMethods","Defines all method tables we need for object protocols."]]});

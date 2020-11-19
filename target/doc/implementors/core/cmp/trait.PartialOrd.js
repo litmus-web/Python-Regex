@@ -1,6 +1,0 @@
-(function() {var implementors = {};
-implementors["proc_macro2"] = [{"text":"impl PartialOrd&lt;Ident&gt; for Ident","synthetic":false,"types":[]}];
-implementors["regex_syntax"] = [{"text":"impl PartialOrd&lt;Span&gt; for Span","synthetic":false,"types":[]},{"text":"impl PartialOrd&lt;Position&gt; for Position","synthetic":false,"types":[]},{"text":"impl PartialOrd&lt;Literal&gt; for Literal","synthetic":false,"types":[]},{"text":"impl PartialOrd&lt;ClassUnicodeRange&gt; for ClassUnicodeRange","synthetic":false,"types":[]},{"text":"impl PartialOrd&lt;ClassBytesRange&gt; for ClassBytesRange","synthetic":false,"types":[]},{"text":"impl PartialOrd&lt;Utf8Sequence&gt; for Utf8Sequence","synthetic":false,"types":[]},{"text":"impl PartialOrd&lt;Utf8Range&gt; for Utf8Range","synthetic":false,"types":[]}];
-implementors["smallvec"] = [{"text":"impl&lt;A:&nbsp;Array&gt; PartialOrd&lt;SmallVec&lt;A&gt;&gt; for SmallVec&lt;A&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;A::Item: PartialOrd,&nbsp;</span>","synthetic":false,"types":[]}];
-implementors["syn"] = [{"text":"impl PartialOrd&lt;Lifetime&gt; for Lifetime","synthetic":false,"types":[]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

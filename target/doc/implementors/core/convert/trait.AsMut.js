@@ -1,4 +1,0 @@
-(function() {var implementors = {};
-implementors["pyo3"] = [{"text":"impl&lt;'p, T, U&gt; AsMut&lt;U&gt; for PyRefMut&lt;'p, T&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: PyClass + PyTypeInfo&lt;BaseType = U, BaseLayout = PyCellInner&lt;U&gt;&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;U: PyClass,&nbsp;</span>","synthetic":false,"types":[]}];
-implementors["smallvec"] = [{"text":"impl&lt;A:&nbsp;Array&gt; AsMut&lt;[&lt;A as Array&gt;::Item]&gt; for SmallVec&lt;A&gt;","synthetic":false,"types":[]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
