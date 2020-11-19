@@ -1,0 +1,23 @@
+[package]
+name = "regex"
+version = "0.1.0"
+authors = ["Harrison Burt <57491488+ChillFish8@users.noreply.github.com>"]
+edition = "2018"
+
+[lib]
+name = "regex"
+crate-type = ["cdylib"]
+
+[dependencies.pyo3]
+version = "0.12.1"
+features = ["extension-module"]
+
+[dependencies]
+regex = "1.4.2"
+
+# faster memory allocator, seems to help PyO3 a decent amount
+mimalloc = { version = "*", default-features = false }
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
