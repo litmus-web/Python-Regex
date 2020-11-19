@@ -1,0 +1,1 @@
+cargo:rustc-cfg=need_proc_macro_hack
