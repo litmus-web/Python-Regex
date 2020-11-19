@@ -1,9 +1,6 @@
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
-use regex::{
-    Regex,
-    Match,
-};
+use regex::Regex;
 
 use mimalloc::MiMalloc;
 
