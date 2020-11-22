@@ -1,16 +1,16 @@
 use pyo3::prelude::*;
-
+use pyo3::wrap_pyfunction;
 use regex::Regex;
 
 use mimalloc::MiMalloc;
 
-
+/// Faster memory allocator in Pyo3 context
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
 
 #[pyclass(name=Regex)]
-struct PyRegex {
+pub struct PyRegex {
     regex: Regex,
 }
 
@@ -127,6 +127,24 @@ fn list_captures(capture: regex::Captures) ->Vec<Option<String>> {
     new
 }
 
+/// Function that given a `regex_pattern` and an input `input_str` returns a
+/// vector of tuples that contain (start_match, end_match+1):
+/// # Example (python)
+/// ```bash
+/// >>> a = mathes(r"n[o|0]*b", "Dont say noob say n00b or the bot will ban u")
+/// >>> a
+/// [(9,13),(18,22)]
+/// ```
+#[pyfunction]
+pub fn matches(regex_pattern: &str, input_str: &str) -> Vec<(usize, usize)> {
+    let re = Regex::new(regex_pattern).unwrap();
+    let mut matches = Vec::new();
+    for m in re.find_iter(input_str) {
+        matches.push((m.start(), m.end()));
+    }
+    matches
+}
+
 
 ///
 /// Wraps all our existing pyobjects together in the module
@@ -134,5 +152,6 @@ fn list_captures(capture: regex::Captures) ->Vec<Option<String>> {
 #[pymodule]
 fn regex(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<PyRegex>()?;
+    m.add_function(wrap_pyfunction!(matches, m)?)?;
     Ok(())
 }
