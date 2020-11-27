@@ -72,6 +72,13 @@ impl PyRegex {
     /// function and returns all matched strings in a list, if no matches it
     /// returns a empty list
     ///
+    /// # Example (python)
+    /// ```python
+    /// >>> a = mathes(r"n[o|0]*b", "Dont say noob say n00b or the bot will ban u")
+    /// >>> a
+    /// [(9,13),(18,22)]
+    /// ```
+    ///
     /// Args:
     ///     other:
     ///         The other string to be matched against the compiled regex.
@@ -130,7 +137,7 @@ fn list_captures(capture: regex::Captures) ->Vec<Option<String>> {
 /// Function that given a `regex_pattern` and an input `input_str` returns a
 /// vector of tuples that contain (start_match, end_match+1):
 /// # Example (python)
-/// ```bash
+/// ```python
 /// >>> a = mathes(r"n[o|0]*b", "Dont say noob say n00b or the bot will ban u")
 /// >>> a
 /// [(9,13),(18,22)]
