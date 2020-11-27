@@ -1,14 +1,17 @@
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
-use regex::Regex;
+use regex::{Regex, RegexSet};
 
 use mimalloc::MiMalloc;
+use pyo3::exceptions::PyValueError;
 
 /// Faster memory allocator in Pyo3 context
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-
+/// Compiles and produces a regex class for matching strings to the regex
+/// pattern, it is recommended to use this over the function methods as
+/// compiling takes a while and shouldn't be constantly remade hurting performance.
 #[pyclass(name=Regex)]
 pub struct PyRegex {
     regex: Regex,
@@ -130,25 +133,102 @@ impl PyRegex {
         Some(new)
     }
 
-    /// Function that given returns a vector of tuples that contain (start_match, end_match+1)
-    /// according to the compiled regex.
-    ///
+    /// Function that given returns a vector of tuples that contain
+    /// (start_match, end_match+1) according to the compiled regex.
     /// Args:
     ///     other:
     ///         The other string to be matched against the compiled regex.
     ///
     /// Returns:
-    ///     A list with containing grouped matches relating
-    ///     to the compiled regex.
-    fn matches(regex_pattern: &str, other: &str) -> Vec<(usize, usize)> {
-        let re = Regex::new(regex_pattern).unwrap();
+    ///     A vector of tuples that contain (start_match, end_match+1).
+    fn matches(&self, other: &str) -> Vec<(usize, usize)> {
         let mut matches = Vec::new();
-        for m in re.find_iter(input_str) {
+        for m in self.regex.find_iter(other) {
             matches.push((m.start(), m.end()));
         }
         matches
     }
 }
+
+/// Compile several regex patterns into a RegexSet, this will match all patterns
+/// in a single match, if you have several patterns you want to check on the
+/// same string this system will be the most performance and efficient method.
+///
+///
+/// # Limitations
+/// Regex sets are limited to answering the following two questions:
+///
+///     1. Does any regex in the set match?
+///     2. If so, which regexes in the set match?
+///
+/// As with the main Regex type, it is cheaper to ask (1) instead of (2)
+/// since the matching engines can stop after the first match is found.
+///
+/// Other features like finding the location of successive matches or their
+/// sub-captures aren't supported. If you need this functionality, the
+/// recommended approach is to compile each regex in the set independently
+/// and selectively match them based on which regexes in the set matched.
+///
+///
+/// # Performance
+/// A RegexSet has the same performance characteristics as Regex. Namely,
+/// search takes O(mn) time, where m is proportional to the size of the regex
+/// set and n is proportional to the length of the search text.
+#[pyclass(name=RegexSet)]
+struct PyRegexSet {
+    set: RegexSet,
+}
+
+#[pymethods]
+impl PyRegexSet {
+    #[new]
+    fn new(pattern: Vec<&str>) -> PyResult<Self> {
+        let set = RegexSet::new(pattern);
+
+        let set = match set {
+            Ok(s) => s,
+            Err(e) => return Err(PyValueError::new_err(format!("{:?}", e)))
+        };
+
+        Ok(PyRegexSet {
+            set,
+        })
+    }
+
+    /// Checks if any of the compiled regex patterns in the set match.
+    ///
+    /// Args:
+    ///     other:
+    ///         The other string to be matched against the compiled set.
+    ///
+    /// Returns:
+    ///     A bool signifying if any patterns in the set match.
+    fn is_match(&self, other: &str) -> bool {
+        self.set.is_match(other)
+    }
+
+    /// Matches the string against the compiled set which will give a list of
+    /// numbers representing which pattern(s) matches the string.
+    ///
+    /// Args:
+    ///     other:
+    ///         The other string to be matched against the compiled set.
+    ///
+    /// Returns:
+    ///     A list of ints which relates the the index of the pattern that was
+    ///     matched. The order of patterns is the same order as added.
+    fn find(&self, other: &str) -> Vec<usize> {
+        let matches = self.set.matches(other);
+
+        let mut out_matches = Vec::with_capacity(self.set.len());
+        for match_ in matches.iter() {
+            out_matches.push(match_)
+        }
+
+        out_matches
+    }
+}
+
 
 fn list_captures(capture: regex::Captures) ->Vec<Option<String>> {
     let mut new: Vec<Option<String>> = capture
