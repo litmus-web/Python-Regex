@@ -74,9 +74,9 @@ impl PyRegex {
     ///
     /// # Example (python)
     /// ```python
-    /// >>> a = mathes(r"n[o|0]*b", "Dont say noob say n00b or the bot will ban u")
+    /// >>> a = pyre.findall(r"n[o|0]*b", "Dont say noob say n00b or the bot will ban u")
     /// >>> a
-    /// [(9,13),(18,22)]
+    /// ["noob", "n00b"]
     /// ```
     ///
     /// Args:
@@ -96,13 +96,34 @@ impl PyRegex {
         matched
     }
 
-    fn all_captures(&self, other: &str) -> Option<Vec<Vec<Option<String>>>> {
+    /// Matches the compiled regex string to another string passed to this
+    /// function and returns all matched strings that are captured by the notated,
+    /// regex if non are matched it returns a empty list.
+    ///
+    /// # Example (python)
+    /// ```python
+    /// >>> a = pyre.all_captures(
+    ///     r"'(?P<title>[^']+)'\s+\((?P<year>\d{4})\)",
+    ///     "'Citizen Kane' (1941), 'The Wizard of Oz' (1939), 'M' (1931). "
+    /// )
+    /// >>> a
+    /// [['Citizen Kane', '1941'], ['The Wizard of Oz', '1939'], ['M', '1931']]
+    /// ```
+    ///
+    /// Args:
+    ///     other:
+    ///         The other string to be matched against the compiled regex.
+    ///
+    /// Returns:
+    ///     A list with n amount of lists containing grouped matches relating
+    ///     to the compiled regex.
+    fn all_captures(&self, other: &str) -> Vec<Vec<Option<String>>> {
         let mut caps = Vec::new();
         for capture in self.regex.captures_iter(other) {
             let new = list_captures(capture);
             caps.push(new);
         }
-        Some(caps)
+        caps
     }
 
     fn captures(&self, other: &str) -> Option<Vec<Option<String>>> {
@@ -115,7 +136,6 @@ impl PyRegex {
         Some(new)
     }
 }
-
 
 fn list_captures(capture: regex::Captures) ->Vec<Option<String>> {
     let mut new: Vec<Option<String>> = capture
@@ -138,7 +158,7 @@ fn list_captures(capture: regex::Captures) ->Vec<Option<String>> {
 /// vector of tuples that contain (start_match, end_match+1):
 /// # Example (python)
 /// ```python
-/// >>> a = mathes(r"n[o|0]*b", "Dont say noob say n00b or the bot will ban u")
+/// >>> a = pyre.matches(r"n[o|0]*b", "Dont say noob say n00b or the bot will ban u")
 /// >>> a
 /// [(9,13),(18,22)]
 /// ```

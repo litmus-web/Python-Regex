@@ -4,7 +4,7 @@ import time
 
 body = "'Citizen Kane' (1941), 'The Wizard of Oz' (1939), 'M' (1931). "
 
-RUNS = 1000
+RUNS = 1
 
 
 exp = regex.Regex(
@@ -13,7 +13,7 @@ exp = regex.Regex(
 
 start = time.perf_counter()
 for _ in range(RUNS):
-    exp.is_match(body * 10_000)
+    print(exp.all_captures(body))
 stop = time.perf_counter() - start
 print(f"Rust Regex took: {round((stop * 1000) / RUNS, 4)}ms")
 

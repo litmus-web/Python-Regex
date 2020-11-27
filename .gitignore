@@ -3,3 +3,5 @@ target/
 __pycache__
 *.so
 .vscode
+/tests/
+/Cargo.lock
