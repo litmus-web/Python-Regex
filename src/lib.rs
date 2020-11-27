@@ -72,13 +72,6 @@ impl PyRegex {
     /// function and returns all matched strings in a list, if no matches it
     /// returns a empty list
     ///
-    /// # Example (python)
-    /// ```python
-    /// >>> a = pyre.findall(r"n[o|0]*b", "Dont say noob say n00b or the bot will ban u")
-    /// >>> a
-    /// ["noob", "n00b"]
-    /// ```
-    ///
     /// Args:
     ///     other:
     ///         The other string to be matched against the compiled regex.
@@ -97,18 +90,8 @@ impl PyRegex {
     }
 
     /// Matches the compiled regex string to another string passed to this
-    /// function and returns all matched strings that are captured by the notated,
+    /// function and returns all matched groups that are captured by the notated,
     /// regex if non are matched it returns a empty list.
-    ///
-    /// # Example (python)
-    /// ```python
-    /// >>> a = pyre.all_captures(
-    ///     r"'(?P<title>[^']+)'\s+\((?P<year>\d{4})\)",
-    ///     "'Citizen Kane' (1941), 'The Wizard of Oz' (1939), 'M' (1931). "
-    /// )
-    /// >>> a
-    /// [['Citizen Kane', '1941'], ['The Wizard of Oz', '1939'], ['M', '1931']]
-    /// ```
     ///
     /// Args:
     ///     other:
@@ -126,6 +109,17 @@ impl PyRegex {
         caps
     }
 
+    /// Matches the compiled regex string to another string passed to this
+    /// function and returns the first matched group according to the compiled
+    /// regex pattern.
+    ///
+    /// Args:
+    ///     other:
+    ///         The other string to be matched against the compiled regex.
+    ///
+    /// Returns:
+    ///     A list with containing grouped matches relating
+    ///     to the compiled regex.
     fn captures(&self, other: &str) -> Option<Vec<Option<String>>> {
         let capture  = match self.regex.captures(other) {
             Some(c) => c,
@@ -134,6 +128,25 @@ impl PyRegex {
         let new = list_captures(capture);
 
         Some(new)
+    }
+
+    /// Function that given returns a vector of tuples that contain (start_match, end_match+1)
+    /// according to the compiled regex.
+    ///
+    /// Args:
+    ///     other:
+    ///         The other string to be matched against the compiled regex.
+    ///
+    /// Returns:
+    ///     A list with containing grouped matches relating
+    ///     to the compiled regex.
+    fn matches(regex_pattern: &str, other: &str) -> Vec<(usize, usize)> {
+        let re = Regex::new(regex_pattern).unwrap();
+        let mut matches = Vec::new();
+        for m in re.find_iter(input_str) {
+            matches.push((m.start(), m.end()));
+        }
+        matches
     }
 }
 
@@ -154,19 +167,23 @@ fn list_captures(capture: regex::Captures) ->Vec<Option<String>> {
     new
 }
 
-/// Function that given a `regex_pattern` and an input `input_str` returns a
-/// vector of tuples that contain (start_match, end_match+1):
-/// # Example (python)
-/// ```python
-/// >>> a = pyre.matches(r"n[o|0]*b", "Dont say noob say n00b or the bot will ban u")
-/// >>> a
-/// [(9,13),(18,22)]
-/// ```
+/// Function that given a `regex_pattern` and an input `input_str` will produce
+/// the matching points of the start and end of the match.
+///
+/// Args:
+///     regex_pattern:
+///         The regex pattern to be matched against a string.
+///     other:
+///         The other string to be matched against the compiled regex.
+///
+/// Returns:
+///     A vector of tuples that contain (start_match, end_match+1).
+///
 #[pyfunction]
-pub fn matches(regex_pattern: &str, input_str: &str) -> Vec<(usize, usize)> {
+pub fn matches(regex_pattern: &str, other: &str) -> Vec<(usize, usize)> {
     let re = Regex::new(regex_pattern).unwrap();
     let mut matches = Vec::new();
-    for m in re.find_iter(input_str) {
+    for m in re.find_iter(other) {
         matches.push((m.start(), m.end()));
     }
     matches
