@@ -6,9 +6,9 @@ This package aims to provide complete coverage of the [regex](https://github.com
 
 Thanks to the linear time matching it allows Python-Regex to be roughly the same speed as the standard library for non-complicated or large matches while being able to cut matching times for large and complicated expressions into fractions of what they were.
 
-## Example of where it excells
+## Example of where it excels
 
-In this examplew we use this regex pattern for selecting HTML tags.
+In this example we use this regex pattern for selecting HTML tags.
 
 In this case when benched on a large chunk of HTML the Rust port took just `13ms` as a max value compared to Python's `116ms` value that grows almost exponentially as the text size increases.
 
