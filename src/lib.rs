@@ -1,9 +1,11 @@
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
+use pyo3::exceptions::PyValueError;
+
 use regex::{Regex, RegexSet};
 
 use mimalloc::MiMalloc;
-use pyo3::exceptions::PyValueError;
+
 
 /// Faster memory allocator in Pyo3 context
 #[global_allocator]
@@ -276,6 +278,7 @@ pub fn matches(regex_pattern: &str, other: &str) -> Vec<(usize, usize)> {
 #[pymodule]
 fn regex(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<PyRegex>()?;
+    m.add_class::<PyRegexSet>()?;
     m.add_function(wrap_pyfunction!(matches, m)?)?;
     Ok(())
 }
