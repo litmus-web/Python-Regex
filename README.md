@@ -24,6 +24,5 @@ exp.find("<Some HTML here>")
 ```
 
 ## Todo:
-- Support RegexSets for amazing stuff
 - finish adding all the other regex functions
 - build wheels
