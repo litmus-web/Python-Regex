@@ -1,0 +1,18 @@
+[build-system]
+requires = ["maturin>=0.13,<0.14"]
+build-backend = "maturin"
+
+[project]
+name = "regex"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+description = "A port of the Rust regex library to python for super speed linear matching."
+
+[project.urls]
+"Source Code" = "https://github.com/litmus-web/Python-Regex"
+Issues = "https://github.com/litmus-web/Python-Regex/issues"
+Documentation = "https://github.com/litmus-web/Python-Regex"
